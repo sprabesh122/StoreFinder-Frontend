@@ -1,3 +1,5 @@
+// Login.jsx
+
 import React, { useState } from "react";
 import { Navigate, Link } from "react-router-dom";
 import axios from "axios";
@@ -5,6 +7,7 @@ import Image from "../assets/image.png";
 import Logo from "../assets/logo.png";
 import GoogleSvg from "../assets/icons8-google.svg";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+
 
 const Login = () => {
   const [identifier, setIdentifier] = useState("");
@@ -80,7 +83,7 @@ const Login = () => {
                 </a>
               </div>
               <div className="login-center-buttons">
-                <button type="button">Log In</button>
+                <button type="submit">Log In</button>
                 <button type="button">
                   <img src={GoogleSvg} alt="" />
                   Log In with Google
@@ -90,7 +93,7 @@ const Login = () => {
           </div>
 
           <p className="login-bottom-p">
-            Don't have an account? <Link to="/register">Register Yourself</Link>
+            Don't have an account? <Link to="/register">Sign Up</Link>
           </p>
         </div>
       </div>

@@ -149,12 +149,16 @@ form button[type="button"] {
   display: flex;
   flex-direction: column;
   row-gap: 10px;
+  padding: 20px;
 }
 
 .login-center-buttons button:nth-child(1) {
   background-color: black;
   color: white;
   border: 3px solid black;
+  border-radius: 25px;
+  height: 55px;
+  font-size: 20px;
 }
 
 .login-center-buttons button:nth-child(1):hover {
