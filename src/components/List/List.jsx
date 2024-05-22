@@ -3,55 +3,56 @@ import { Box, Container, Paper, TextField, Button } from "@material-ui/core";
 import useStyles from "./styles";
 
 export default function List() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [users, setUsers] = useState([]);
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [students, setStudents] = useState([]);
   const classes = useStyles();
 
   const handleClick = (e) => {
     e.preventDefault();
-    const user = { username, email, password: 'defaultPassword', role: 'user' }; // Add default password and role
-    console.log(user);
-    fetch("http://localhost:8080/users/add", {
+    const student = { name, address };
+    console.log(student);
+    fetch("http://localhost:8080/student/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(user),
+      body: JSON.stringify(student),
     }).then(() => {
-      console.log("New User Added!");
-      setUsers([...users, user]);
-      setUsername("");
-      setEmail("");
+      console.log("New Student Added!");
+      setStudents([...students, student]);
+      setName("");
+      
+      setAddress("");
     });
   };
 
   useEffect(() => {
-    fetch("http://localhost:8080/users")
+    fetch("http://localhost:8080/student/getAll")
       .then((res) => res.json())
       .then((result) => {
-        setUsers(result);
+        setStudents(result);
       });
   }, []);
 
   return (
     <Container className={classes.container}>
       <Paper elevation={3} className={classes.paper}>
-        <h1 className={classes.title}>Add User</h1>
+        <h1 className={classes.title}>Add Student</h1>
         <form className={classes.form} noValidate autoComplete="off">
           <TextField
             id="outlined-basic"
-            label="Username"
+            label="Student Name"
             variant="outlined"
             fullWidth
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
           <TextField
             id="outlined-basic"
-            label="Email"
+            label="Student Address"
             variant="outlined"
             fullWidth
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
           />
           <Button
             variant="contained"
@@ -64,13 +65,13 @@ export default function List() {
         </form>
       </Paper>
 
-      <h1 className={classes.title}>Users</h1>
+      <h1 className={classes.title}>Students</h1>
       <Paper elevation={3} className={classes.paper}>
-        {users.map((user) => (
-          <Paper elevation={6} className={classes.studentPaper} key={user.id}>
-            <div><strong>Id:</strong> {user.id}</div>
-            <div><strong>Username:</strong> {user.username}</div>
-            <div><strong>Email:</strong> {user.email}</div>
+        {students.map((student) => (
+          <Paper elevation={6} className={classes.studentPaper} key={student.id}>
+            <div><strong>Id:</strong> {student.id}</div>
+            <div><strong>Name:</strong> {student.name}</div>
+            <div><strong>Address:</strong> {student.address}</div>
           </Paper>
         ))}
       </Paper>

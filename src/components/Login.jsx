@@ -1,5 +1,3 @@
-// Login.jsx
-
 import React, { useState } from "react";
 import { Navigate, Link } from "react-router-dom";
 import axios from "axios";
@@ -82,7 +80,7 @@ const Login = () => {
                 </a>
               </div>
               <div className="login-center-buttons">
-                <button type="submit">Log In</button>
+                <button type="button">Log In</button>
                 <button type="button">
                   <img src={GoogleSvg} alt="" />
                   Log In with Google
@@ -92,7 +90,7 @@ const Login = () => {
           </div>
 
           <p className="login-bottom-p">
-            Don't have an account? <Link to="/register">Sign Up</Link>
+            Don't have an account? <Link to="/register">Register Yourself</Link>
           </p>
         </div>
       </div>
