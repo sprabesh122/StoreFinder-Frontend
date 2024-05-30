@@ -1,21 +1,25 @@
 // App.jsx
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { CssBaseline, Grid } from "@material-ui/core";
+import React, { useState, useNavigate} from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { CssBaseline, AppBar, Toolbar, Button, Typography, Select, MenuItem, FormControl, InputLabel} from "@material-ui/core";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Stores from "./components/Store/Stores";
+import Navbar from "./components/Navbar";
+import StoreDetails from "./components/Store/StoreDetails";
 
 function App() {
   return (
     <>
       <CssBaseline />
       <Router>
+        <Navbar />
         <div className="App">
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="/stores" element={<Stores />} />
+            <Route path="/store/:storeId" element={<StoreDetails />}/>
           </Routes>
         </div>
       </Router>
