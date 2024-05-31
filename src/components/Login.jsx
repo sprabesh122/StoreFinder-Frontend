@@ -49,7 +49,9 @@ const Login = () => {
         longitude,
       });
       if (response.status === 200) {
-        localStorage.setItem("token", response.data);
+        const { userId, token } = response.data; // Extract userId and token from the response
+        localStorage.setItem("userId", userId); // Store userId in local storage
+        localStorage.setItem("token", token); // Store token in local storage
         setLoggedIn(true);
       }
     } catch (error) {
@@ -57,6 +59,7 @@ const Login = () => {
       setError("Invalid email/username or password");
     }
   };
+  
 
   if (loggedIn) {
     return <Navigate to="/stores" />;
