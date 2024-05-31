@@ -4,6 +4,7 @@ import { useLocation, Link } from 'react-router-dom';
 import { Grid, Card, CardContent, CardActionArea, Typography, makeStyles, Container } from '@material-ui/core';
 import Map from '../Map/Map';
 import axios from 'axios';
+import Navbar from "../Navbar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +57,7 @@ const Stores = () => {
 
   return (
     <Container className={classes.root}>
+    <Navbar />
       <Grid container spacing={3}>
         <Grid item xs={12} md={4}>
           <Typography className={classes.title} variant="h1">

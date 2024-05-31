@@ -5,7 +5,6 @@ import { CssBaseline, AppBar, Toolbar, Button, Typography, Select, MenuItem, For
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Stores from "./components/Store/Stores";
-import Navbar from "./components/Navbar";
 import StoreDetails from "./components/Store/StoreDetails";
 
 function App() {
@@ -13,7 +12,6 @@ function App() {
     <>
       <CssBaseline />
       <Router>
-        <Navbar />
         <div className="App">
           <Routes>
             <Route path="/" element={<Login />} />
