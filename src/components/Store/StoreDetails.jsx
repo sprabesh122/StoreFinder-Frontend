@@ -1,10 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Card, CardContent, Typography, List, ListItem, ListItemText, CircularProgress, Container, makeStyles } from '@material-ui/core';
 import axios from 'axios';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: theme.spacing(4),
+  },
+  card: {
+    marginBottom: theme.spacing(4),
+  },
+  title: {
+    fontSize: '2em',
+    fontWeight: 'bold',
+    marginBottom: theme.spacing(2),
+  },
+  loading: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+  },
+  reviewsTitle: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1),
+  },
+}));
 
 const StoreDetails = () => {
   const { storeId } = useParams();
   const [storeDetails, setStoreDetails] = useState(null);
+  const classes = useStyles();
 
   useEffect(() => {
     const fetchStoreDetails = async () => {
@@ -20,20 +46,36 @@ const StoreDetails = () => {
   }, [storeId]);
 
   if (!storeDetails) {
-    return <div>Loading...</div>;
+    return (
+      <div className={classes.loading}>
+        <CircularProgress />
+      </div>
+    );
   }
 
   return (
-    <div>
-      <h2>{storeDetails.name}</h2>
-      <p>Description: {storeDetails.description}</p>
-      <h3>Reviews:</h3>
-      <ul>
+    <Container className={classes.root}>
+      <Card className={classes.card}>
+        <CardContent>
+          <Typography className={classes.title} variant="h2">
+            {storeDetails.name}
+          </Typography>
+          <Typography variant="body1" color="textSecondary">
+            Description: {storeDetails.description}
+          </Typography>
+        </CardContent>
+      </Card>
+      <Typography className={classes.reviewsTitle} variant="h4">
+        Reviews:
+      </Typography>
+      <List>
         {storeDetails.reviews && storeDetails.reviews.map((review, index) => (
-          <li key={index}>{review}</li>
+          <ListItem key={index}>
+            <ListItemText primary={review} />
+          </ListItem>
         ))}
-      </ul>
-    </div>
+      </List>
+    </Container>
   );
 };
 

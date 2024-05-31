@@ -1,8 +1,47 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AppBar, Toolbar, Button, Typography, Select, MenuItem, FormControl, InputLabel, TextField } from "@material-ui/core";
+import { AppBar, Toolbar, Button, Typography, Select, MenuItem, FormControl, InputLabel, TextField, makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+  toolbar: {
+    justifyContent: 'space-between',
+  },
+  title: {
+    flexGrow: 1,
+    color: '#fff',
+    textDecoration: 'none',
+  },
+  formControl: {
+    minWidth: 150,
+    marginRight: theme.spacing(2),
+    '& .MuiOutlinedInput-input': {
+      color: '#fff',
+    },
+    '& .MuiInputLabel-outlined': {
+      color: '#fff',
+    },
+    '& .MuiSelect-icon': {
+      color: '#fff',
+    },
+  },
+  textField: {
+    marginRight: theme.spacing(2),
+    minWidth: 200,
+    '& .MuiOutlinedInput-input': {
+      color: '#fff',
+    },
+    '& .MuiInputLabel-outlined': {
+      color: '#fff',
+    },
+  },
+  button: {
+    color: '#fff',
+    borderColor: '#fff',
+  },
+}));
 
 const Navbar = () => {
+  const classes = useStyles();
   const [filterType, setFilterType] = useState("");
   const [filterValue, setFilterValue] = useState("");
   const navigate = useNavigate();
@@ -24,24 +63,21 @@ const Navbar = () => {
 
   return (
     <AppBar position="static">
-      <Toolbar style={{ justifyContent: 'space-between' }}>
-        <Typography variant="h6">
+      <Toolbar className={classes.toolbar}>
+        <Typography component={Link} to="/" variant="h6" className={classes.title}>
           StoreFinder-App
         </Typography>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <FormControl variant="outlined" style={{ minWidth: 200, marginRight: 16 }}>
-            <InputLabel style={{ color: '#fff' }}>Filter By</InputLabel>
+          <FormControl variant="outlined" className={classes.formControl}>
+            <InputLabel>Filter By</InputLabel>
             <Select
               value={filterType}
               onChange={handleFilterTypeChange}
               label="Filter By"
-              inputProps={{ style: { color: '#fff' } }}
-              style={{ color: '#fff' }}
             >
               <MenuItem value=""><em>None</em></MenuItem>
               <MenuItem value="category">Category</MenuItem>
               <MenuItem value="product">Product</MenuItem>
-            
             </Select>
           </FormControl>
           {filterType && (
@@ -50,12 +86,10 @@ const Navbar = () => {
               value={filterValue}
               onChange={handleFilterValueChange}
               placeholder={`Enter ${filterType}`}
-              InputProps={{ style: { color: '#fff' } }}
-              InputLabelProps={{ style: { color: '#fff' } }}
-              style={{ marginRight: 16, color: 'white', minWidth: 200 }}
+              className={classes.textField}
             />
           )}
-          <Button color="inherit" onClick={handleSearch}>
+          <Button variant="outlined" className={classes.button} onClick={handleSearch}>
             Search
           </Button>
         </div>
