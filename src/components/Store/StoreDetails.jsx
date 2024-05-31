@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 const StoreDetails = () => {
   const { storeId } = useParams();
   const [storeDetails, setStoreDetails] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const classes = useStyles();
 
   useEffect(() => {
@@ -42,7 +43,17 @@ const StoreDetails = () => {
       }
     };
 
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/review/store/${storeId}`);
+        setReviews(response.data);
+      } catch (error) {
+        console.error('Error fetching reviews:', error);
+      }
+    };
+
     fetchStoreDetails();
+    fetchReviews();
   }, [storeId]);
 
   if (!storeDetails) {
@@ -69,11 +80,15 @@ const StoreDetails = () => {
         Reviews:
       </Typography>
       <List>
-        {storeDetails.reviews && storeDetails.reviews.map((review, index) => (
-          <ListItem key={index}>
-            <ListItemText primary={review} />
-          </ListItem>
-        ))}
+        {reviews.length > 0 ? (
+          reviews.map((review, index) => (
+            <ListItem key={index}>
+              <ListItemText primary={review.comment} secondary={`Rating: ${review.rating} - ${review.date}`} />
+            </ListItem>
+          ))
+        ) : (
+          <Typography variant="body1">No reviews available.</Typography>
+        )}
       </List>
     </Container>
   );
