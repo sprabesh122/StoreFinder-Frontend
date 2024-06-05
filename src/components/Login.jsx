@@ -49,9 +49,18 @@ const Login = () => {
         longitude,
       });
       if (response.status === 200) {
-        const { userId, token } = response.data; // Extract userId and token from the response
-        localStorage.setItem("userId", userId); // Store userId in local storage
-        localStorage.setItem("token", token); // Store token in local storage
+        const { userId, token } = response.data;
+        localStorage.setItem("userId", userId);
+        localStorage.setItem("token", token);
+  
+        // Check if the user is an admin
+        const adminResponse = await axios.get(`http://localhost:8080/users/check-admin/${userId}`);
+        if (adminResponse.data === "User is an Admin") {
+          localStorage.setItem("isAdmin", true);
+        } else {
+          localStorage.removeItem("isAdmin", false);
+        }
+  
         setLoggedIn(true);
       }
     } catch (error) {
@@ -60,10 +69,18 @@ const Login = () => {
     }
   };
   
+  
 
   if (loggedIn) {
-    return <Navigate to="/stores" />;
+    // Check if the user is an admin
+    const isAdmin = localStorage.getItem("isAdmin");
+    if (isAdmin) {
+      return <Navigate to="/admin" />;
+    } else {
+      return <Navigate to="/stores" />;
+    }
   }
+  
 
   return (
     <div className="login-main">

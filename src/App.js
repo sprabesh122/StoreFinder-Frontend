@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Stores from "./components/Store/Stores";
 import StoreDetails from "./components/Store/StoreDetails";
+import AdminPage from "./components/AdminPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="register" element={<Register />} />
             <Route path="/stores" element={<Stores />} />
             <Route path="/store/:storeId" element={<StoreDetails />}/>
+            <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </div>
       </Router>
