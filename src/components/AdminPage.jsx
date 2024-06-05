@@ -10,27 +10,51 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    fontSize: "40px",
   },
   formContainer: {
     padding: theme.spacing(4),
-    borderRadius: theme.spacing(2),
+    // borderRadius: theme.spacing(2),
     backgroundColor: theme.palette.background.paper,
+    height: '100%', 
+    border:"2px solid black"
+  },
+  header: {
+    marginBottom: theme.spacing(4),
   },
   form: {
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(6), 
+    '& > *': {
+      marginBottom: theme.spacing(2), 
+    },
   },
   card: {
     backgroundColor: "#ADD8E6",
     color: theme.palette.secondary.contrastText,
     boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.1)",
     transition: "0.3s",
+    width: '100%',
+    maxWidth: '300px',
+    
     "&:hover": {
       transform: "translateY(-5px)",
       boxShadow: "0px 20px 40px rgba(0, 0, 0, 0.2)",
+      fontWeight: "bold",
+      color: "#000", 
     },
+    padding: '10px',
   },
   cardContent: {
     padding: theme.spacing(3),
+    color: "#000", 
+    fontWeight: "bold", 
+    fontSize: "1.2rem", 
+  },
+  cardsContainer: {
+    margin: theme.spacing(4), 
+  },
+  gridContainer: {
+    height: '100%', 
   },
 }));
 
@@ -105,75 +129,81 @@ const AdminPage = () => {
 
   return (
     <div className={classes.root}>
-      <Container maxWidth="md">
-        <Paper className={classes.formContainer}>
-          <Typography variant="h4" align="center" gutterBottom>
-            Add New Store
-          </Typography>
-          <form className={classes.form} onSubmit={handleSubmit}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
-                <TextField name="name" label="Store Name" fullWidth onChange={handleChange} required variant="outlined" />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField name="address" label="Address" fullWidth onChange={handleChange} required variant="outlined" />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField name="contactDetails" label="Contact Details" fullWidth onChange={handleChange} required variant="outlined" />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField name="operatingHours" label="Operating Hours" fullWidth onChange={handleChange} required variant="outlined" />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField name="description" label="Description" fullWidth multiline rows={4} onChange={handleChange} required variant="outlined" />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField name="logoImageUrl" label="Logo Image URL" fullWidth onChange={handleChange} required variant="outlined" />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl fullWidth variant="outlined">
-                  <InputLabel>Select Category</InputLabel>
-                  <Select name="categoryId" value={formData.categoryId} onChange={handleChange} required>
-                    {categories.map((category) => (
-                      <MenuItem key={category.id} value={category.id}>
-                        {category.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                <Button type="submit" variant="contained" color="primary">
-                  Add Store
-                </Button>
-              </Grid>
+      <Container maxWidth="lg">
+        <Grid container className={classes.gridContainer}>
+          <Grid item xs={12} md={6}>
+            <Paper className={classes.formContainer}>
+              <Typography variant="h4" align="center" gutterBottom className={classes.header}>
+                Add New Store
+              </Typography>
+              <form className={classes.form} onSubmit={handleSubmit}>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField name="name" label="Store Name" fullWidth onChange={handleChange} required variant="outlined" />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField name="address" label="Address" fullWidth onChange={handleChange} required variant="outlined" />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField name="contactDetails" label="Contact Details" fullWidth onChange={handleChange} required variant="outlined" />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField name="operatingHours" label="Operating Hours" fullWidth onChange={handleChange} required variant="outlined" />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField name="description" label="Description" fullWidth multiline rows={4} onChange={handleChange} required variant="outlined" />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField name="logoImageUrl" label="Logo Image URL" fullWidth onChange={handleChange} required variant="outlined" />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormControl fullWidth variant="outlined">
+                      <InputLabel>Select Category</InputLabel>
+                      <Select name="categoryId" value={formData.categoryId} onChange={handleChange} required>
+                        {categories.map((category) => (
+                          <MenuItem key={category.id} value={category.id}>
+                            {category.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button type="submit" variant="contained" color="primary">
+                      Add Store
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Grid container spacing={3} justifyContent="center" className={classes.cardsContainer}>
+              {stores.map((store) => (
+                <Grid key={store.id} item xs={12} sm={6} md={4}>
+                  <Card className={classes.card}>
+                    <CardContent className={classes.cardContent}>
+                      <Typography variant="h5" component="h2">
+                        {store.name}
+                      </Typography>
+                      <Typography variant="body2" component="p">
+                        {store.address}
+                      </Typography>
+                      <Typography variant="body2" component="p">
+                        Contact: {store.contactDetails}
+                      </Typography>
+                      <Typography variant="body2" component="p">
+                        Operating Hours: {store.operatingHours}
+                      </Typography>
+                      <Typography variant="body2" component="p">
+                        Description: {store.description}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
             </Grid>
-          </form>
-        </Paper>
-        <Grid container spacing={3}>
-          {stores.map((store) => (
-            <Grid key={store.id} item xs={12} sm={6} md={4}>
-              <Card className={classes.card}>
-                <CardContent className={classes.cardContent}>
-                  <Typography variant="h5" component="h2">
-                    {store.name}
-                  </Typography>
-                  <Typography variant="body2" component="p">
-                    {store.address}
-                  </Typography>
-                  <Typography variant="body2" component="p">
-                    Contact: {store.contactDetails}
-                  </Typography>
-                  <Typography variant="body2" component="p">
-                    Operating Hours: {store.operatingHours}
-                  </Typography>
-                  <Typography variant="body2" component="p">
-                    Description: {store.description}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
+          </Grid>
         </Grid>
       </Container>
     </div>
