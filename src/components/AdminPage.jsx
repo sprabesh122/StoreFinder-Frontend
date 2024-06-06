@@ -80,28 +80,62 @@ const AdminPage = () => {
     });
   };
 
+  const sendEmailsToUsers = async (storeData) => {
+    try {
+      const usersResponse = await axios.get("http://localhost:8080/users/getAll");
+      const users = usersResponse.data;
+
+      const emailPromises = users.map(async (user) => {
+        const userEmailResponse = await axios.get(`http://localhost:8080/users/${user.userId}`);
+        const userEmail = userEmailResponse.data.email;
+        console.log(userEmail)
+        const subject = `New Store Added: ${storeData.name}`;
+        const text = `A new store has been added:\n\n` +
+                     `Name: ${storeData.name}\n` +
+                     `Address: ${storeData.address}\n` +
+                     `Contact Details: ${storeData.contactDetails}\n` +
+                     `Operating Hours: ${storeData.operatingHours}\n` +
+                     `Description: ${storeData.description}`;
+
+        return axios.post("http://localhost:8080/mail/sendmail", null, {
+          params: {
+            to: userEmail,
+            subject: subject,
+            text: text,
+          }
+        });
+      });
+
+      await Promise.all(emailPromises);
+      console.log("Emails sent successfully.");
+    } catch (error) {
+      console.error("Error sending emails:", error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const storeResponse = await axios.post("http://localhost:8080/stores/add", {
         ...formData,
       });
+
+      const storeData = storeResponse.data;
   
       const storeId = storeResponse.data.id;
   
       await axios.post(`http://localhost:8080/stores/${storeId}/categories/add`, {
         id: formData.categoryId,
       });
-  
+
+      await sendEmailsToUsers(formData);
+
       setSuccess(true);
     } catch (error) {
       console.error("Error adding store:", error);
     }
   };
 
-  if (success) {
-    return <Navigate to="/stores" />;
-  }
 
   return (
     <div className={classes.root}>
