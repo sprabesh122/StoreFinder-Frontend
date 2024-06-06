@@ -146,11 +146,11 @@ const AdminPage = () => {
 
       const storeData = storeResponse.data;
   
-      const storeId = storeResponse.data.id;
+      // const storeId = storeResponse.data.id;
   
-      await axios.post(`http://localhost:8080/stores/${storeId}/categories/add`, {
-        id: formData.categoryId,
-      });
+      // await axios.post(`http://localhost:8080/stores/${storeId}/categories/add`, {
+      //   id: formData.categoryId,
+      // });
 
       await sendEmailsToUsers(formData);
 
